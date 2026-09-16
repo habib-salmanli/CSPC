@@ -24,7 +24,7 @@ conda activate cspc
 ## PW1 - Lab B: Data, Plotting, and Automation
 
 **What I built:**
-- Read the observed decay dataset and compared it to the analytical decay law N0*exp(-lam*t) with a side-by-side plot, then automated figure generation with a Snakemake pipeline.
+- I compared the real decay measurements to the theoretical exponential curve using a side-by-side plot, and set up Snakemake to automatically rebuild the figure when needed.
 
 **Result:**
 - The observed data closely matches the analytical decay curve — both show the same exponential decay shape on the same axis scale.
