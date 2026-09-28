@@ -32,3 +32,16 @@ conda activate cspc
 **Snakemake pipeline:**
 - The Snakefile defines a single rule that regenerates figure.png from decay_observed.csv by running plot.py, and only reruns when the input files have changed.
 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## PW2 - Lab A: Motion from Tracking Data
+
+**Mean acceleration:**
+- I got a mean acceleration of -8.58 m/s². It is not exactly -9.81, but when I fitted a parabola to the position data I got -9.80, so the object really is in free fall.
+
+**Why the acceleration is noisy:**
+- The std of the acceleration was about 28.7, which is much bigger than g. The position looks smooth, but each time I take a derivative the small errors get bigger, and I did it twice.
+
+**Integrating back:**
+- When I integrated the noisy acceleration twice, I got the position back with a max difference of 0.78 m. So integration makes the noise smaller, the opposite of differentiation.
+
