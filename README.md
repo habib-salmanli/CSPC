@@ -45,3 +45,18 @@ conda activate cspc
 **Integrating back:**
 - When I integrated the noisy acceleration twice, I got the position back with a max difference of 0.78 m. So integration makes the noise smaller, the opposite of differentiation.
 
+
+## PW2 - Lab B: Optimization in Chemistry
+
+**Comparing the optimization methods:**
+- For the easy function, all three methods agreed and gave x=3, so there was no real difference between them.
+- For the harder function, the methods did not always agree. Starting from x0=0, Newton actually found a maximum instead of a minimum (I checked g'' and it was negative there), while gradient descent and SLSQP both found a real minimum. Starting from x0=2, gradient descent and Newton found the closer minimum, but SLSQP ended up at the other minimum far away. So the starting point and which method you use can both change the answer.
+
+**Fitting the reaction rate:**
+- I fitted k to the noisy data and got k≈0.26, which is close to the expected 0.25. When I plotted the fitted curve on top of the data points, it followed the data pretty well.
+
+**Chemical equilibrium:**
+- Newton's method and SLSQP both gave the same answer, x≈0.664. At that point H2 and I2 are about 0.336 mol each and HI is about 1.328 mol.
+
+**Titration equivalence point (bonus):**
+- I found the slope of the pH curve and looked for where it was biggest. It peaked at around V=... mL (öz ədədini yaz), which matches the equivalence point.
