@@ -34,6 +34,7 @@ conda activate cspc
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ## PW2 - Lab A: Motion from Tracking Data
 
 **Mean acceleration:**
@@ -60,3 +61,46 @@ conda activate cspc
 
 **Titration equivalence point (bonus):**
 - I found the slope of the pH curve and looked for where it was biggest. It peaked at around V=... mL (öz ədədini yaz), which matches the equivalence point.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## PW3: Data, Distributions, Testing, and Causation
+
+---
+## PW3: Data, Distributions, Testing, and Causation
+
+**Data:** heart.csv (Cleveland heart disease dataset, Kaggle/UCI) and chemicals_cancer.csv (synthetic).
+
+**Shape of the variables (distributions.png):**
+- age: ...
+- chol: ...
+- trestbps: ...
+- thalach: ...
+
+**Are they normal? (Shapiro-Wilk + Q-Q plots):**
+- age: p = ..., verdict: ...
+- chol: p = ..., verdict: ...
+- trestbps: p = 1.5e-06, not normal.
+- thalach: p = 6.6e-05, not normal.
+- I also checked the Q-Q plots because Shapiro-Wilk is very sensitive with about 300 patients.
+
+**Do heart disease patients have a different max heart rate?**
+- thalach is not normal, so I used the Mann-Whitney test as the main test and a Welch t-test as a check.
+- Disease group: mean 158.5 bpm (SEM 1.5, n = 165). Healthy group: mean 139.1 bpm (SEM 1.9, n = 138).
+- Both tests gave p around 1e-13, so the difference is real and not chance.
+- The error bars in thalach_groups.png do not overlap, which agrees with the tests.
+
+**Do age and thalach move together?**
+- Pearson r = -0.40 and Spearman rho = -0.40 (p around 1e-13).
+- Older patients tend to have a lower max heart rate. The correlation is moderate and the points are spread out, so age explains only part of it.
+
+**Chemical mystery:**
+- Naive result: benzene r = ..., cadmium r = .... At face value ... looked like the cause.
+- Chemicals vs pollution_index: benzene r = ..., cadmium r = ....
+- With pollution_index between 40 and 60 (n = ...): benzene r = ..., cadmium r = ....
+- Conclusion: ... is the real cause because its association stayed. ... only looked guilty because it follows the pollution index.
+- Correlation does not mean causation: a third variable can create a fake link.
+
+**Bonus:**
+- target proportions: ... / ..., entropy = ... bits (max 1.0).
