@@ -63,44 +63,42 @@ conda activate cspc
 - I found the slope of the pH curve and looked for where it was biggest. It peaked at around V=... mL (öz ədədini yaz), which matches the equivalence point.
 
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-## PW3: Data, Distributions, Testing, and Causation
 
----
 ## PW3: Data, Distributions, Testing, and Causation
 
 **Data:** heart.csv (Cleveland heart disease dataset, Kaggle/UCI) and chemicals_cancer.csv (synthetic).
 
 **Shape of the variables (distributions.png):**
-- age: ...
-- chol: ...
-- trestbps: ...
-- thalach: ...
+- age: roughly bell-shaped, peak around 55-60, from about 29 to 77 years.
+- chol: peak around 220-240 with a long tail to the right, a few very high values (one near 560).
+- trestbps: peak around 120-130, skewed to the right, a few high values up to about 200.
+- thalach: skewed to the left, peak around 160-170, with a tail towards low values (down to about 70).
 
 **Are they normal? (Shapiro-Wilk + Q-Q plots):**
-- age: p = ..., verdict: ...
-- chol: p = ..., verdict: ...
-- trestbps: p = 1.5e-06, not normal.
-- thalach: p = 6.6e-05, not normal.
-- I also checked the Q-Q plots because Shapiro-Wilk is very sensitive with about 300 patients.
+- age: p = 0.0058. The test says not normal, but the Q-Q plot follows the line closely and only the ends move away. With about 300 patients Shapiro-Wilk reacts to very small differences, so I call age approximately normal.
+- chol: p = 5.4e-09, not normal. In the Q-Q plot a few very high values go far above the line.
+- trestbps: p = 1.5e-06, not normal. The Q-Q plot is curved and the upper end goes above the line.
+- thalach: p = 6.6e-05, not normal. The Q-Q plot is slightly S-shaped and the lowest points fall below the line.
 
-**Do heart disease patients have a different max heart rate?**
+**Do the two target groups have a different max heart rate?**
 - thalach is not normal, so I used the Mann-Whitney test as the main test and a Welch t-test as a check.
-- Disease group: mean 158.5 bpm (SEM 1.5, n = 165). Healthy group: mean 139.1 bpm (SEM 1.9, n = 138).
+- target=1: mean 158.5 bpm (SEM 1.5, n = 165). target=0: mean 139.1 bpm (SEM 1.9, n = 138).
 - Both tests gave p around 1e-13, so the difference is real and not chance.
-- The error bars in thalach_groups.png do not overlap, which agrees with the tests.
+- In thalach_groups.png the error bars are small and the two bars are clearly separated, so the picture agrees with the tests.
+- The target=1 group has the higher heart rate. This looks reversed, because patients with heart disease usually reach a lower max heart rate. The first patient in the file (age 63) has target=1 but in the original Cleveland data has no disease, and the group sizes also fit. So in this version target=1 most likely means "no disease", and the real conclusion is that patients with heart disease reach a lower max heart rate.
 
-**Do age and thalach move together?**
+**Do age and thalach move together? (age_thalach.png)**
 - Pearson r = -0.40 and Spearman rho = -0.40 (p around 1e-13).
-- Older patients tend to have a lower max heart rate. The correlation is moderate and the points are spread out, so age explains only part of it.
+- The points make a cloud going down to the right, so older patients tend to have a lower max heart rate. The cloud is wide, so age explains only part of it.
 
 **Chemical mystery:**
-- Naive result: benzene r = ..., cadmium r = .... At face value ... looked like the cause.
-- Chemicals vs pollution_index: benzene r = ..., cadmium r = ....
-- With pollution_index between 40 and 60 (n = ...): benzene r = ..., cadmium r = ....
-- Conclusion: ... is the real cause because its association stayed. ... only looked guilty because it follows the pollution index.
+- Naive result: benzene r = 0.385 and cadmium r = 0.880 with malignancy. At face value cadmium looked like the cause, much stronger than benzene.
+- Looking again: cadmium is almost the same thing as the pollution index (r = 0.982), and the pollution index is strongly linked to malignancy (r = 0.895). Benzene is not linked to the pollution index (r = 0.054).
+- So I kept only patients with pollution_index between 40 and 60 (n = 199) and recomputed. Benzene stayed strong (r = 0.702, p = 8e-31). Cadmium dropped a lot (r = 0.316).
+- Conclusion: benzene is the real cause, because its link stayed strong when pollution was held roughly fixed. Cadmium only looked guilty because it follows the pollution index, and its link mostly disappeared once pollution was controlled.
 - Correlation does not mean causation: a third variable can create a fake link.
 
 **Bonus:**
-- target proportions: ... / ..., entropy = ... bits (max 1.0).
+- target proportions: 54.5% / 45.5%, entropy = 0.994 bits (max 1.0). The column is almost perfectly balanced, so it is hard to guess the category without more information.
